@@ -1,0 +1,42 @@
+version: '3.7'
+services:
+  web:
+    container_name: web
+    build:
+      context: ./
+      dockerfile: ./docker/Dockerfile
+    environment:
+      XDEBUG_CONFIG: remote_host=host.docker.internal
+      PHP_IDE_CONFIG: serverName=localhost
+    ports:
+      - 80:80
+    volumes:
+      - ./:/var/www
+    links:
+      - db1
+    depends_on:
+      - db1
+  db1:
+    container_name: mysql
+    image: 'mysql:latest'
+    command: --default-authentication-plugin=mysql_native_password --innodb-use-native-aio=0  --sql_mode=""
+    restart: always
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_USER: ${DB_USERNAME}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - mysql-data-database:/var/lib/mysql
+  adminer:
+    image: adminer
+    ports:
+      - "8090:8080"
+    restart: unless-stopped
+    depends_on:
+      - db1
+      #Volumes
+volumes:
+  mysql-data-database:
