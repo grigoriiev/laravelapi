@@ -7,6 +7,7 @@ use App\Models\Notebook;
 use App\Http\Requests\NoteBooksRequest;
 use Illuminate\Filesystem\FilesystemManager;
 use Illuminate\Support\Facades\Storage;
+use App\Http\Requests\UpdateFotoRequest;
 
 class UpdateImageController extends Controller
 {
@@ -17,7 +18,7 @@ class UpdateImageController extends Controller
      * @param  \App\Models\Notebook  $notebook
      * @return \Illuminate\Http\Response
      */
-    public function updateImage(Request $request, $id)
+    public function updateImage(UpdateFotoRequest $request, $id)
     {
 
 
