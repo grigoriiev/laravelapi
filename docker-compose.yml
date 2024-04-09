@@ -7,9 +7,9 @@ services:
       dockerfile: ./docker/Dockerfile
     environment:
       XDEBUG_CONFIG: remote_host=host.docker.internal
-      PHP_IDE_CONFIG: serverName=localhost
     ports:
-      - 80:80
+      - "80:80"
+      - "500:443"
     volumes:
       - ./:/var/www
     links:
@@ -25,8 +25,8 @@ services:
       - 3306:3306
     environment:
       MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
-      MYSQL_DATABASE: ${DB_NAME}
-      MYSQL_USER: ${DB_USERNAME}
+      MYSQL_DATABASE: ${DB_DATABASE}
+  #    MYSQL_USER: ${DB_USERNAME}
       MYSQL_PASSWORD: ${DB_PASSWORD}
     volumes:
       - mysql-data-database:/var/lib/mysql

@@ -1,55 +1,55 @@
 
 ## ОПИСАНИЕ ФУНКЦИОНАЛА ДЛЯ ПРОВЕРЯЮЩЕГО
 
-notebook
-Everything about your Notebook
+NOTEBOOK
+REST API для записной книжки
 
-Find out more
 
 
 PUT
-/notebook/{id}
+/api/v1/notebook/{id}
 Обновление записей без картинки
 
 
 
 GET
-/notebook/{id}
+/api/v1/notebook/{id}
 Получение записи
 
 
 
 DELETE
-/notebook/{id}
+/api/v1/notebook/{id}
 Удаление записи
 
 
 
 POST
-/notebook/{id}
+/api/v1/notebook/{id}
 Обновление картинки
 
 
 
 POST
-/notebook
+/api/v1/notebook
 Добавление записи
 
 
 
 GET
-/notebook
+/api/v1/notebook
 Получение всех записей
 
 
 
 GET
-/notebooklist/{limit}
+/api/v1/notebooklist/{limit}
 Получение определенного количества записей (вывод информации в списке по странично)
 
-Есть докер
+Есть докер Обновлено: Запускаться из Docker контейнер  с минимальной конфигурацией
 
 ## ТЕСТИРОВАНИЕ
 
-Тестировал результат с помощью Postman отправляв запросы
+Тестировал результат с помощью Postman отправляв запросы на url http://localhost:80/
+443 не работает на сколько я понял потому что нет ssl
 

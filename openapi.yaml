@@ -37,7 +37,7 @@ paths:
           required: true
           schema:
              type: number
-             format: int64 
+             format: int64
       requestBody:
         description: Update an existent notebook in the store
         content:
@@ -57,7 +57,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Notebook'          
+                $ref: '#/components/schemas/Notebook'
             application/xml:
               schema:
                 $ref: '#/components/schemas/Notebook'
@@ -67,10 +67,7 @@ paths:
           description: Pet not found
         '405':
           description: Validation exception
-      security:
-        - petstore_auth:
-            - write:pets
-            - read:pets
+
     get:
       tags:
         - notebook
@@ -84,7 +81,7 @@ paths:
           required: true
           schema:
              type: number
-             format: int64 
+             format: int64
       responses:
         '200':
           description: successful operation
@@ -93,7 +90,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Notebook'          
+                  $ref: '#/components/schemas/Notebook'
             application/xml:
               schema:
                 type: array
@@ -101,11 +98,8 @@ paths:
                   $ref: '#/components/schemas/Notebook'
         '400':
           description: Invalid status value
-      security:
-        - petstore_auth:
-            - write:notebooks
-            - read:notebooks
-            
+
+
     delete:
       tags:
         - notebook
@@ -119,14 +113,11 @@ paths:
           required: true
           schema:
              type: number
-             format: int64 
+             format: int64
       responses:
         '400':
           description: Invalid notebook value
-      security:
-        - petstore_auth:
-            - write:notebooks
-            - read:notebooks          
+
     post:
       tags:
         - notebook
@@ -140,7 +131,7 @@ paths:
           required: true
           schema:
              type: number
-             format: int64 
+             format: int64
       requestBody:
         content:
           application/octet-stream:
@@ -154,12 +145,9 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ApiResponse'
-      security:
-        - petstore_auth:
-            - write:notebooks
-            - read:notebooks
-           
-  /notebook:     
+
+
+  /notebook:
     post:
       tags:
         - notebook
@@ -185,16 +173,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Notebook'          
+                $ref: '#/components/schemas/Notebook'
             application/xml:
               schema:
                 $ref: '#/components/schemas/Notebook'
         '405':
           description: Invalid input
-      security:
-        - petstore_auth:
-            - write:notebooks
-            - read:notebooks
+
     get:
       tags:
         - notebook
@@ -210,7 +195,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Notebook'          
+                  $ref: '#/components/schemas/Notebook'
             application/xml:
               schema:
                 type: array
@@ -218,11 +203,7 @@ paths:
                   $ref: '#/components/schemas/Notebook'
         '400':
           description: Invalid tag value
-      security:
-        - petstore_auth:
-            - write:notebooks
-            - read:notebooks
-            
+
   /notebooklist/{limit}:
     get:
       tags:
@@ -237,14 +218,14 @@ paths:
           required: true
           schema:
              type: object
-             format: int64 
+             format: int64
       responses:
         '200':
           description: successful operation
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Notebook'          
+                $ref: '#/components/schemas/Notebook'
             application/xml:
               schema:
                 $ref: '#/components/schemas/Notebook'
@@ -252,11 +233,7 @@ paths:
           description: Invalid ID supplied
         '404':
           description: Notebook not found
-      security:
-        - api_key: []
-        - petstore_auth:
-            - write:notebooks
-            - read:notebooks
+
 components:
   schemas:
     Notebook:
@@ -310,17 +287,4 @@ components:
         application/xml:
           schema:
             $ref: '#/components/schemas/Notebook'
-   
-  securitySchemes:
-    petstore_auth:
-      type: oauth2
-      flows:
-        implicit:
-          authorizationUrl: https://swagger.io/oauth/authoriz
-          scopes:
-            write:pets: modify notebooks in your account
-            read:pets: read your notebooks
-    api_key:
-      type: apiKey
-      name: api_key
-      in: header
+

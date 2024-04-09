@@ -1,55 +1,42 @@
 #указываем основной образ для контейнера
-FROM ubuntu:latest
+FROM php:8.3-apache
+#устанавливаем Московское время
 ENV TZ=Europe/Moscow
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
-#обновим
-RUN apt-get update
 
-#устанавливаем апач
-RUN apt-get install -y apache2 apache2-utils curl gnupg wget
 RUN a2enmod rewrite
 
-#установим переменные окружения
-
-
-#указываем зону для нашего образа
-
-
-#устанавливаем php и расширения
-RUN apt-get install -y git perl \
-    php7.4  nano
-
-RUN apt-get install -y \
-    php-pdo php-pdo-mysql \
-    php-mbstring php-tokenizer \
-    php-xml php-simplexml php-zip \
-    php-opcache php-iconv php-intl \
-    php-json php-gd php-ctype php-oauth \
-    php-apcu php-imagick php-xdebug \
-    php-memcached php-ftp php-imap \
-    php-curl iputils-ping
-
-RUN apt-get update
-
-#откроем 80 порт
-EXPOSE 80
-
+RUN apt-get update && apt-get install -y \
+        apt-utils \
+        vim \
+        rsync \
+        curl \
+        openssl \
+        openssh-server \
+        git \
+        zlib1g-dev \
+        libicu-dev \
+        libzip-dev \
+        g++ \
+        zip \
+        unzip \
+        gnupg \
+        gnupg2 \
+        libfreetype6-dev \
+        libjpeg62-turbo-dev \
+        libpng-dev \
+    && docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install -j$(nproc) gd \
+    && docker-php-ext-install pdo_mysql
 COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
 
 #добавим в контейнер конфигурационный файл php.ini
-ADD ./docker/conf/php/php.ini /etc/php/7.4/apache2/php.ini
-
+ADD ./docker/conf/php/php.ini /etc/php/8.3/apache2/php.ini
 #добавим конфигурацию xdebug
-ADD ./docker/conf/php/xdebug.ini /etc/php/7.4/mods-available/xdebug.ini
+ADD ./docker/conf/php/xdebug.ini /etc/php/8.3/mods-available/xdebug.ini
+#добавим конфигурацию apache
+ADD ./docker/conf/apache/000-default.conf /etc/apache2/sites-available/000-default.conf
 
-#добавим конфигурационный файл для apache
-ADD ./docker/conf/apache/apache2.conf /etc/apache2/apache2.conf
+EXPOSE 443
 
-#очистим папки
-RUN rm -R /etc/apache2/sites-enabled/* /etc/apache2/sites-available/* /var/www/*
 
-#укажем директорию /var/www как рабочую
-WORKDIR /var/www
-
-#запускаем процесс apache2
-CMD ["/usr/sbin/apache2ctl", "-D", "FOREGROUND"]
