@@ -3,30 +3,31 @@
 namespace App\Http\Controllers;
 
 use App\Models\Notebook;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use App\Http\Requests\NoteBooksRequest;
+use Throwable;
 
 class NotebookListController extends Controller
 {
-    public function list(Request $request){
-    
-       
+    public function list(Request $request): JsonResponse
+    {
+
+
         try {
-            $notebookList = Notebook::paginate($request->input("limit"));   
+            $notebookList = Notebook::paginate($request->input("limit"));
             return response()->json([
                 'status' => true,
-                'notebookList' => $notebookList 
-            ], 200); 
-        } catch (\Throwable $th) {
-           
+                'notebookList' => $notebookList
+            ], 200);
+        } catch (Throwable $th) {
+
             return response()->json([
                 'status' => false,
                 'notebookList' => "Notebook has been false."
-            ], 500); 
+            ], 500);
         }
 
 
-      
     }
 
 }
@@ -35,4 +36,4 @@ class NotebookListController extends Controller
 
 
 
-  
+
